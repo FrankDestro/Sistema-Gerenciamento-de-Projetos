@@ -26,6 +26,8 @@ public class JwtTokenEnhancer implements TokenEnhancer {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("userFirstName", user.getFirstName());
+		map.put("userLastName", user.getLastName());
+		map.put("e-mail", user.getEmail());
 		map.put("userId", user.getId());
 
 		DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
@@ -33,4 +35,6 @@ public class JwtTokenEnhancer implements TokenEnhancer {
 		
 		return accessToken;
 	}
+	
+	// TokenEnhancer adds additional info not only to jwt but into responce object too
 }
