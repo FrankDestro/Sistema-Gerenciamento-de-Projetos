@@ -1,5 +1,6 @@
 package com.management.project_managment.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,22 +13,23 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_departament")
-public class Departament {
+@Table(name = "tb_department")
+public class Department implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	
-	@OneToMany(mappedBy = "departament")
+	@OneToMany(mappedBy = "department")
 	private List<User> employees = new ArrayList<>();
 	
-	public Departament() {
+	public Department() {
 		
 	}
 
-	public Departament(Long id, String name) {
+	public Department(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -48,6 +50,10 @@ public class Departament {
 		this.name = name;
 	}
 
+	public List<User> getEmployees() {
+		return employees;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -61,7 +67,7 @@ public class Departament {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Departament other = (Departament) obj;
+		Department other = (Department) obj;
 		return Objects.equals(id, other.id);
 	}
 }

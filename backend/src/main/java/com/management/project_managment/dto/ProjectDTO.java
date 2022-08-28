@@ -1,60 +1,57 @@
-package com.management.project_managment.entities;
+package com.management.project_managment.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
+import com.management.project_managment.entities.Project;
 import com.management.project_managment.enums.Status;
 
-@Entity
-@Table(name = "tb_project")
-public class Project implements Serializable {
+public class ProjectDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Size(min = 5, max = 60, message = "Deve ter entre 5 e 60 caracteres")
+	@NotBlank(message = "Campo requerido")
 	private String name;
-	@Column(columnDefinition = "TEXT")
+	@NotBlank(message = "Campo requerido")
 	private String description;
+	@FutureOrPresent(message = "Colocar uma data presente ou futura")
 	private Date initialDate;
+	@Future(message = "Colocar uma data futura")
 	private Date dueData;
-	//@Enumerated(EnumType.STRING)
+	@NotBlank(message = "Campo requerido")
 	private Status status;
+	@NotBlank(message = "Campo requerido")
 	private String imgUrl;
+	@Positive(message = "Budget deve ser um valor positivo")
 	private Double budget;
+	@PositiveOrZero(message = "Colocar um numero positivo ou zero")
 	private Double expenses;
+	@PositiveOrZero(message = "Colocar um numero positivo ou zero")
 	private Double invoicing;
+	@NotBlank(message = "Campo requerido")
 	private String owner;
+	@NotBlank(message = "Campo requerido")
 	private String category;
+	@NotBlank(message = "Campo requerido")
+	private Long client;
+	@NotBlank(message = "Campo requerido")
+	private String clientName;
 
-	@OneToMany(mappedBy = "project")
-	private Set<Task> tasks = new HashSet<>();
+	Set<TaskDTO> tasks = new HashSet<>();
 
-	@ManyToOne
-	@JoinColumn(name = "client_id")
-	private Client client;
-
-	public Project() {
-	}
-
-	public Project(Long id, String name, String description, Date initialDate, Date dueData, Status status,
-			String imgUrl, Double budget, Double expenses, Double invoicing, String owner, String category,
-			Client client) {
-
+	public ProjectDTO(Long id, String name, String description, Date initialDate, Date dueData, Status status,
+			String imgUrl, Double budget, Double expenses, Double invoicing, String owner, String category, Long client,
+			String clientName) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -68,8 +65,27 @@ public class Project implements Serializable {
 		this.owner = owner;
 		this.category = category;
 		this.client = client;
+		this.clientName = clientName;
 	}
 
+	public ProjectDTO(Project entity) {
+		id = entity.getId();
+		name = entity.getName();
+		description = entity.getDescription();
+		initialDate = entity.getInitialDate();
+		dueData = entity.getDueData();
+		status = entity.getStatus();
+		imgUrl = entity.getImgUrl();
+		budget = entity.getBudget();
+		expenses = entity.getExpenses();
+		invoicing = entity.getInvoicing();
+		owner = entity.getOwner();
+		category = entity.getCategory();
+		client = entity.getClient().getId();
+		clientName = entity.getClient().getName();
+		entity.getTasks().forEach(tk -> this.tasks.add(new TaskDTO(tk)));
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -157,7 +173,7 @@ public class Project implements Serializable {
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
-	
+
 	public String getCategory() {
 		return category;
 	}
@@ -166,33 +182,23 @@ public class Project implements Serializable {
 		this.category = category;
 	}
 
-	public Client getClient() {
+	public Long getClient() {
 		return client;
 	}
 
-	public void setClient(Client client) {
+	public void setClient(Long client) {
 		this.client = client;
 	}
 
-	public Set<Task> getTasks() {
+	public String getClientName() {
+		return clientName;
+	}
+
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
+
+	public Set<TaskDTO> getTasks() {
 		return tasks;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Project other = (Project) obj;
-		return Objects.equals(id, other.id);
-	}
-
 }

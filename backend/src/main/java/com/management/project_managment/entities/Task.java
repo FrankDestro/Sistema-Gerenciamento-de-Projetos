@@ -30,7 +30,6 @@ public class Task implements Serializable {
 	private String description;
 	private Date dataInitial;
 	private Date dueData;
-	@Enumerated(EnumType.STRING)
 	private Status status;
 	
 	@ManyToOne

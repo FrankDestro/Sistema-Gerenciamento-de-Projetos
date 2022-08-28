@@ -1,40 +1,29 @@
-package com.management.project_managment.entities;
+package com.management.project_managment.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import com.management.project_managment.entities.Client;
 
-@Entity
-@Table(name = "tb_client")
-public class Client implements Serializable {
+public class ClientDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private Long id;
-	private String name; 
+	private String name;
 	private String city;
 	private String country;
-	private String	address;
+	private String address;
 	private Long zip;
 	private String marketSegment;
-	
-	@OneToMany(mappedBy = "client")
-	private List<Project> projects = new ArrayList<>();
-	
-	public Client() {
-		
+
+	private List<ProjectDTO> projects = new ArrayList<>();
+
+	public ClientDTO() {
 	}
-	
-	public Client(Long id, String name, String city, String country, String address, Long zip, String marketSegment) {
+
+	public ClientDTO(Long id, String name, String city, String country, String address, Long zip,
+			String marketSegment) {
 		this.id = id;
 		this.name = name;
 		this.city = city;
@@ -44,8 +33,17 @@ public class Client implements Serializable {
 		this.marketSegment = marketSegment;
 	}
 
+	public ClientDTO (Client entity) {
+		id = entity.getId();
+		name = entity.getName();		
+		city = entity.getCity();
+		country = entity.getCountry();
+		address = entity.getAddress();
+		zip = entity.getZip();
+		marketSegment = entity.getMarketSegment();
+		entity.getProjects().forEach(projects -> this.projects.add(new ProjectDTO(projects)));			
+	}
 
-	
 	public Long getId() {
 		return id;
 	}
@@ -93,7 +91,7 @@ public class Client implements Serializable {
 	public void setZip(Long zip) {
 		this.zip = zip;
 	}
-
+	
 	public String getMarketSegment() {
 		return marketSegment;
 	}
@@ -102,25 +100,7 @@ public class Client implements Serializable {
 		this.marketSegment = marketSegment;
 	}
 
-	public List<Project> getProjects() {
+	public List<ProjectDTO> getProjects() {
 		return projects;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Client other = (Client) obj;
-		return Objects.equals(id, other.id);
-	}
-
 }

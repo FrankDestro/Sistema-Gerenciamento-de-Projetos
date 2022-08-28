@@ -3,10 +3,12 @@ package com.management.project_managment.entities;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,9 +23,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
 @Table(name = "tb_user")
-public class User implements Serializable {
+public class User implements UserDetails, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -32,6 +38,7 @@ public class User implements Serializable {
 	private String firstName;
 	private String lastName;
 
+	// nao deixar inserir email que ja consta no banco. 
 	@Column(unique = true)
 	private String email;
 	private String password;
@@ -52,8 +59,8 @@ public class User implements Serializable {
 	private List<Notification> notifications = new ArrayList<>();
 
 	@ManyToOne
-	@JoinColumn(name = "id_departament")
-	private Departament departament;
+	@JoinColumn(name = "id_department")
+	private Department department;
 	
 	@OneToMany(mappedBy = "user")
 	private List<Task> tasks = new ArrayList<>();
@@ -62,7 +69,7 @@ public class User implements Serializable {
 	}
 
 	public User(Long id, String firstName, String lastName, String email, String password, String imgProfile,
-			String charge, Departament departament) {
+			String charge, Department department) {
 
 		this.id = id;
 		this.firstName = firstName;
@@ -71,7 +78,7 @@ public class User implements Serializable {
 		this.password = password;
 		this.imgProfile = imgProfile;
 		this.charge = charge;
-		this.departament = departament;
+		this.department = department;
 	}
 
 	public Long getId() {
@@ -138,12 +145,12 @@ public class User implements Serializable {
 		return updaedAt;
 	}
 
-	public Departament getDepartament() {
-		return departament;
+	public Department getDepartament() {
+		return department;
 	}
 
-	public void setDepartament(Departament departament) {
-		this.departament = departament;
+	public void setDepartament(Department departament) {
+		this.department = departament;
 	}
 
 	// Listas 
@@ -175,6 +182,43 @@ public class User implements Serializable {
 			return false;
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
+	}
+	
+	// Implementação do UserDetails. 
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority()))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }
