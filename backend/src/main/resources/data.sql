@@ -28,3 +28,7 @@ INSERT INTO tb_project (name, description, initial_Date, due_Data, status, img_U
 INSERT INTO tb_task (name, description, data_Initial, due_Data, status, id_user, id_project) VALUES ('Construção Front-End', 'Construir o front-end estatico com html e css', '2022-08-22', '2022-08-29', 0,  3, 1);
 INSERT INTO tb_task (name, description, data_Initial, due_Data, status, id_user, id_project) VALUES ('Construção database', 'Construir o database', '2022-08-22', '2022-08-29', 0,  3, 1);
 INSERT INTO tb_task (name, description, data_Initial, due_Data, status, id_user, id_project) VALUES ('configurar variaveis do aplicatvo', 'configurar o arquivos de variaveis', '2022-08-22', '2022-08-29', 0,  3, 1);
+
+
+INSERT INTO tb_notification (text, moment, read, route, user_id) VALUES ('Bob criar um novo projeto para cliente novo','2020-12-10', false, 'caminho', 1);
+INSERT INTO tb_notification (text, moment, read, route, user_id) VALUES ('Ana revisar a tarefa de desenvolvimento de front-end','2020-12-10', false, 'caminho', 2);

@@ -30,5 +30,5 @@ public class ProjectResource {
 		ProjectDTO dto = projectService.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
-	
+		
 }

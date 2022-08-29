@@ -36,7 +36,6 @@ public class Notification implements Serializable {
 	}
 
 	public Notification(Long id, String text, Instant moment, boolean read, String route, User user) {
-		super();
 		this.id = id;
 		this.text = text;
 		this.moment = moment;
