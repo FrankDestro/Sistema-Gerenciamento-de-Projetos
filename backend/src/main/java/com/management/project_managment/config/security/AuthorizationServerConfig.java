@@ -1,4 +1,4 @@
-package com.management.project_managment.config;
+package com.management.project_managment.config.security;
 
 import java.util.Arrays;
 

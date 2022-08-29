@@ -44,14 +44,19 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private AuthService authService;
+	
 	@Transactional(readOnly=true)
 	public Page<UserDTO> findAllUsers(Pageable pageable){
+		authService.validaIfUserIsAdmin();
 		Page<User> list = userRepository.findAll(pageable);
 		return list.map(x -> new UserDTO(x));
 	}
 	
 	@Transactional(readOnly = true)
 	public UserDTO findById(Long id) {
+		authService.validateSelfOrAdmin(id);
 		Optional<User> obj = userRepository.findById(id);
 		User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new UserDTO(entity);
@@ -59,6 +64,7 @@ public class UserService implements UserDetailsService {
 	
 	@Transactional
 	public UserDTO insert(UserInsertDTO dto) {
+		authService.validaIfUserIsAdmin();
 		User entity = new User();
 		copyDtoToEntity(dto, entity);
 		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -68,6 +74,7 @@ public class UserService implements UserDetailsService {
 	
 	@Transactional
 	public UserDTO update(Long id, UserUpdateDTO dto) {
+		authService.validaIfUserIsAdmin();
 		try {
 			User entity = userRepository.getOne(id);
 			copyDtoToEntity(dto, entity);
@@ -80,6 +87,7 @@ public class UserService implements UserDetailsService {
 	}
 	
 	public void delete(Long id) {
+		authService.validaIfUserIsAdmin();
 		try {
 			userRepository.deleteById(id);
 		}

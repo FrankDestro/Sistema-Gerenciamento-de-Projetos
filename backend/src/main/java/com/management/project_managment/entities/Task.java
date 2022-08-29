@@ -28,7 +28,9 @@ public class Task implements Serializable {
 	private String name;
 	@Column(columnDefinition = "TEXT")
 	private String description;
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")	
 	private Date dataInitial;
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")	
 	private Date dueData;
 	private Status status;
 	

@@ -220,5 +220,14 @@ public class User implements UserDetails, Serializable {
 		// TODO Auto-generated method stub
 		return true;
 	}
+	
+	public boolean hasRole(String roleName) {
+		for (Role role : roles) {
+			if (role.getAuthority().equals(roleName)) {
+				return true;
+			}
+		}
 
+		return false;
+	}
 }

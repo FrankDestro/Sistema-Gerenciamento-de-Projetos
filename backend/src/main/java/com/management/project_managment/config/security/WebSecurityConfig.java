@@ -1,4 +1,4 @@
-package com.management.project_managment.config;
+package com.management.project_managment.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

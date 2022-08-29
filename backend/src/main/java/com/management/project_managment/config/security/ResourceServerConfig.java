@@ -1,4 +1,4 @@
-package com.management.project_managment.config;
+package com.management.project_managment.config.security;
 
 import java.util.Arrays;
 
@@ -25,16 +25,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Autowired
 	private Environment env;
-	
+
 	@Autowired
 	private JwtTokenStore tokenStore;
-	
+
 	private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**" };
-	
-	private static final String[] PROJECTS_AND_TASKS = { "/projects/**", "/tasks/**" };
-	
-	private static final String[] Users = { "/users/**" };	
-	
+ 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
 		resources.tokenStore(tokenStore);
@@ -43,47 +39,37 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 
-		// H2
+		// Liberação do banco H2
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
-		
+
 		http.authorizeRequests()
 		.antMatchers(PUBLIC).permitAll()
 		
-		// Liberações ADMIN e OPER
-		.antMatchers(HttpMethod.GET, PROJECTS_AND_TASKS).authenticated()
-		.antMatchers(PROJECTS_AND_TASKS).hasAnyRole("OPER", "ADMIN")
-			
-		// Liberaçãoes ADMIN
-		.antMatchers(Users).hasRole("ADMIN")
-		.antMatchers(HttpMethod.POST, Users).hasAnyRole("ADMIN")
-		.antMatchers(HttpMethod.PUT, Users).hasAnyRole("ADMIN")
-		.antMatchers(HttpMethod.DELETE, Users).hasAnyRole("ADMIN")
-		
 		.anyRequest().authenticated();
-		
+
 		http.cors().configurationSource(corsConfigurationSource());
 	}
-	
+
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
-	    CorsConfiguration corsConfig = new CorsConfiguration();
-	    corsConfig.setAllowedOriginPatterns(Arrays.asList("*"));
-	    corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
-	    corsConfig.setAllowCredentials(true);
-	    corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-	 
-	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**", corsConfig);
-	    return source;
+		CorsConfiguration corsConfig = new CorsConfiguration();
+		corsConfig.setAllowedOriginPatterns(Arrays.asList("*"));
+		corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
+		corsConfig.setAllowCredentials(true);
+		corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", corsConfig);
+		return source;
 	}
-	 
+
 	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilter() {
-	    FilterRegistrationBean<CorsFilter> bean
-	            = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
-	    bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-	    return bean;
+		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(
+				new CorsFilter(corsConfigurationSource()));
+		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		return bean;
 	}
 }
