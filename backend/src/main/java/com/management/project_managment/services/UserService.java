@@ -47,6 +47,13 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private AuthService authService;
 	
+	// Buscar dados do perfil logado. 
+	public UserDTO ProfileUserCurrent (){
+		User user = authService.authenticated();
+		user = userRepository.findByEmail(user.getEmail());
+		return new UserDTO(user);
+	}
+	
 	@Transactional(readOnly=true)
 	public Page<UserDTO> findAllUsers(Pageable pageable){
 		authService.validaIfUserIsAdmin();
@@ -56,7 +63,7 @@ public class UserService implements UserDetailsService {
 	
 	@Transactional(readOnly = true)
 	public UserDTO findById(Long id) {
-		authService.validateSelfOrAdmin(id);
+		authService.validaIfUserIsAdmin();
 		Optional<User> obj = userRepository.findById(id);
 		User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new UserDTO(entity);

@@ -30,6 +30,7 @@ public class UserResource {
 	@Autowired
 	private UserService Userservice;
 	
+	
 	@GetMapping
 	public ResponseEntity<Page<UserDTO>> findAllUsers(Pageable pageable) {
 		Page<UserDTO> list = Userservice.findAllUsers(pageable);		
@@ -40,7 +41,7 @@ public class UserResource {
 	public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
 		UserDTO dto = Userservice.findById(id);
 		return ResponseEntity.ok().body(dto);
-	}
+	} 
 	
 	@PostMapping
 	public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto) {

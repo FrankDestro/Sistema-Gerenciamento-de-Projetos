@@ -22,8 +22,7 @@ import com.management.project_managment.enums.Status;
 @Table(name = "tb_project")
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -32,13 +31,23 @@ public class Project implements Serializable {
 	private String description;
 	private Date initialDate;
 	private Date dueData;
-	//@Enumerated(EnumType.STRING)
+	// @Enumerated(EnumType.STRING)
 	private Status status;
 	private String imgUrl;
+	@Column(columnDefinition = "TEXT")
+	private String smart;
+	@Column(columnDefinition = "TEXT")
+	private String premises;
+	@Column(columnDefinition = "TEXT")
+	private String risks;
+	@Column(columnDefinition = "TEXT")
+	private String resources;
 	private Double budget;
 	private Double expenses;
 	private Double invoicing;
+	@Column(columnDefinition = "TEXT")
 	private String owner;
+	@Column(columnDefinition = "TEXT")
 	private String category;
 
 	@OneToMany(mappedBy = "project")
@@ -52,9 +61,9 @@ public class Project implements Serializable {
 	}
 
 	public Project(Long id, String name, String description, Date initialDate, Date dueData, Status status,
-			String imgUrl, Double budget, Double expenses, Double invoicing, String owner, String category,
-			Client client) {
-
+			String imgUrl, String smart, String premises, String risks, String resources, Double budget,
+			Double expenses, Double invoicing, String owner, String category, Client client) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -62,6 +71,10 @@ public class Project implements Serializable {
 		this.dueData = dueData;
 		this.status = status;
 		this.imgUrl = imgUrl;
+		this.smart = smart;
+		this.premises = premises;
+		this.risks = risks;
+		this.resources = resources;
 		this.budget = budget;
 		this.expenses = expenses;
 		this.invoicing = invoicing;
@@ -126,6 +139,38 @@ public class Project implements Serializable {
 		this.imgUrl = imgUrl;
 	}
 
+	public String getSmart() {
+		return smart;
+	}
+
+	public void setSmart(String smart) {
+		this.smart = smart;
+	}
+
+	public String getPremises() {
+		return premises;
+	}
+
+	public void setPremises(String premises) {
+		this.premises = premises;
+	}
+
+	public String getRisks() {
+		return risks;
+	}
+
+	public void setRisks(String risks) {
+		this.risks = risks;
+	}
+
+	public String getResources() {
+		return resources;
+	}
+
+	public void setResources(String resources) {
+		this.resources = resources;
+	}
+
 	public Double getBudget() {
 		return budget;
 	}
@@ -157,7 +202,7 @@ public class Project implements Serializable {
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
-	
+
 	public String getCategory() {
 		return category;
 	}

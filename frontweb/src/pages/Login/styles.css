@@ -1,0 +1,90 @@
+/* card principal */
+.card-login {
+  width: 551px;
+  height: 720px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  margin-top: 90px;
+  text-align: center;
+}
+
+/* card top logo */
+.container-logo-login {
+  padding: 0;
+  border-bottom: 1px solid #e1e1e1;
+}
+.container-logo-login img {
+  width: 250px;
+  height: 250px;
+}
+
+/* card botton content */
+.container-content-login {
+  padding: 30px 70px 30px 70px;
+}
+
+.container-content-login h1 {
+    margin-bottom: 40px;
+}
+
+
+.login-link-recover {
+    font-size: 1em;
+    letter-spacing: -0.015em;
+    color: #407bff;
+    display: block;
+    margin-bottom: 30px;
+  }
+
+  .login-link-recover:hover {
+    color:rgb(255, 157, 0);
+  }
+   
+  .login-link-register {
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+    letter-spacing: -0.015em;
+    text-decoration-line: underline;
+    color: #407bff;
+    margin-left: 10px;
+    text-decoration: none;
+  }
+
+  .login-link-register:hover {
+    color:rgb(255, 157, 0);
+  }
+   
+  .login-submit {
+    margin-bottom: 10px;
+  }
+
+  .login-submit button {
+    align-items: center;
+    width: 150px;
+    height: 40px;
+    background-color: #6894eb;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 80px;
+  }
+
+  .login-submit button:hover {
+    background-color: #ebc268;
+  }
+   
+  .not-registered {
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+    letter-spacing: -0.015em;
+    color: #9e9e9e;
+  }
+   
+  .signup-container {
+    text-align: center;
+    margin-bottom: 30px;
+  }

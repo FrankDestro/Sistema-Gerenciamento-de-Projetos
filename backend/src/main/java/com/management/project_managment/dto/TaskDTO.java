@@ -2,6 +2,8 @@ package com.management.project_managment.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
@@ -30,6 +32,7 @@ public class TaskDTO implements Serializable {
 	private Long projectId;
 	private String projectName;
 	
+		
 	public TaskDTO() {
 	}
 
@@ -139,4 +142,5 @@ public class TaskDTO implements Serializable {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
+
 }

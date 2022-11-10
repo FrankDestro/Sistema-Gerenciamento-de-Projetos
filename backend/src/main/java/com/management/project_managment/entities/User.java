@@ -38,7 +38,7 @@ public class User implements UserDetails, Serializable {
 	private String firstName;
 	private String lastName;
 
-	// nao deixar inserir email que ja consta no banco. 
+	// nao deixar inserir email que ja consta no banco.
 	@Column(unique = true)
 	private String email;
 	private String password;
@@ -61,11 +61,11 @@ public class User implements UserDetails, Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_department")
 	private Department department;
-	
+
 	@OneToMany(mappedBy = "user")
 	private List<Task> tasks = new ArrayList<>();
-	
-		public User() {
+
+	public User() {
 	}
 
 	public User(Long id, String firstName, String lastName, String email, String password, String imgProfile,
@@ -153,8 +153,8 @@ public class User implements UserDetails, Serializable {
 		this.department = departament;
 	}
 
-	// Listas 
-	
+	// Listas
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -162,7 +162,7 @@ public class User implements UserDetails, Serializable {
 	public List<Notification> getNotifications() {
 		return notifications;
 	}
-	
+
 	public List<Task> getTasks() {
 		return tasks;
 	}
@@ -183,13 +183,12 @@ public class User implements UserDetails, Serializable {
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	// Implementação do UserDetails. 
+
+	// Implementação do UserDetails.
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority()))
-				.collect(Collectors.toList());
+		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
 	}
 
 	@Override
@@ -220,7 +219,7 @@ public class User implements UserDetails, Serializable {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
+
 	public boolean hasRole(String roleName) {
 		for (Role role : roles) {
 			if (role.getAuthority().equals(roleName)) {

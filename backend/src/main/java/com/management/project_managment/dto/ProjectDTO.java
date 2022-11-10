@@ -12,7 +12,9 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
+import com.management.project_managment.entities.Client;
 import com.management.project_managment.entities.Project;
+import com.management.project_managment.entities.Task;
 import com.management.project_managment.enums.Status;
 
 public class ProjectDTO implements Serializable {
@@ -33,10 +35,18 @@ public class ProjectDTO implements Serializable {
 	@NotBlank(message = "Campo requerido")
 	private String imgUrl;
 	@Positive(message = "Budget deve ser um valor positivo")
+	private String smart;
+	@PositiveOrZero(message = "Colocar um numero positivo ou zero")
+	private String premises;
+	@PositiveOrZero(message = "Colocar um numero positivo ou zero")
+	private String risks;
+	@NotBlank(message = "Campo requerido")
+	private String resources;
+	@NotBlank(message = "Campo requerido")
 	private Double budget;
-	@PositiveOrZero(message = "Colocar um numero positivo ou zero")
+	@NotBlank(message = "Campo requerido")
 	private Double expenses;
-	@PositiveOrZero(message = "Colocar um numero positivo ou zero")
+	@NotBlank(message = "Campo requerido")
 	private Double invoicing;
 	@NotBlank(message = "Campo requerido")
 	private String owner;
@@ -44,13 +54,14 @@ public class ProjectDTO implements Serializable {
 	private String category;
 	@NotBlank(message = "Campo requerido")
 	private Long client;
-	@NotBlank(message = "Campo requerido")
 	private String clientName;
-
+			
 	Set<TaskDTO> tasks = new HashSet<>();
-
-	public ProjectDTO(Long id, String name, String description, Date initialDate, Date dueData, Status status,
-			String imgUrl, Double budget, Double expenses, Double invoicing, String owner, String category, Long client,
+	
+	private int quanttasks = tasks.size();
+	
+	public ProjectDTO(Long id,
+			String name, String description, Date initialDate, Date dueData, Status status, String imgUrl,String smart, String premises, String risks, String resources, Double budget, Double expenses, Double invoicing, String owner, String category, Long client,
 			String clientName) {
 		this.id = id;
 		this.name = name;
@@ -59,6 +70,10 @@ public class ProjectDTO implements Serializable {
 		this.dueData = dueData;
 		this.status = status;
 		this.imgUrl = imgUrl;
+		this.smart = smart;
+		this.premises = premises;
+		this.risks = risks;
+		this.resources = resources;
 		this.budget = budget;
 		this.expenses = expenses;
 		this.invoicing = invoicing;
@@ -66,6 +81,7 @@ public class ProjectDTO implements Serializable {
 		this.category = category;
 		this.client = client;
 		this.clientName = clientName;
+		
 	}
 
 	public ProjectDTO(Project entity) {
@@ -76,6 +92,10 @@ public class ProjectDTO implements Serializable {
 		dueData = entity.getDueData();
 		status = entity.getStatus();
 		imgUrl = entity.getImgUrl();
+		smart = entity.getSmart();
+		premises = entity.getPremises();
+		risks = entity.getRisks();
+		resources = entity.getResources();
 		budget = entity.getBudget();
 		expenses = entity.getExpenses();
 		invoicing = entity.getInvoicing();
@@ -84,8 +104,10 @@ public class ProjectDTO implements Serializable {
 		client = entity.getClient().getId();
 		clientName = entity.getClient().getName();
 		entity.getTasks().forEach(tk -> this.tasks.add(new TaskDTO(tk)));
+		
 	}
 	
+
 	public Long getId() {
 		return id;
 	}
@@ -140,6 +162,38 @@ public class ProjectDTO implements Serializable {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+
+	public String getSmart() {
+		return smart;
+	}
+
+	public void setSmart(String smart) {
+		this.smart = smart;
+	}
+
+	public String getPremises() {
+		return premises;
+	}
+
+	public void setPremises(String premises) {
+		this.premises = premises;
+	}
+
+	public String getRisks() {
+		return risks;
+	}
+
+	public void setRisks(String risks) {
+		this.risks = risks;
+	}
+
+	public String getResources() {
+		return resources;
+	}
+
+	public void setResources(String resources) {
+		this.resources = resources;
 	}
 
 	public Double getBudget() {
@@ -201,4 +255,9 @@ public class ProjectDTO implements Serializable {
 	public Set<TaskDTO> getTasks() {
 		return tasks;
 	}
+
+	public int getQuanttasks() {
+		return quanttasks;
+	}
+
 }

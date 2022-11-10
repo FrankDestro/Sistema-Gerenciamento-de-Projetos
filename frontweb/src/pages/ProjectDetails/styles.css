@@ -1,0 +1,28 @@
+.container {
+    
+}
+
+.projectdetails-options {
+    border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
+}
+
+.project-details-content {
+    border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
+}
+
+.projectdetails-chart {
+    border: 1px solid red;
+}
+
+.projectdetails-description {
+    border: 1px solid red;
+}
+
+.projectdetails-button {
+    border: 1px solid red;
+}
+
